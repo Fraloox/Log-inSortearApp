@@ -63,7 +63,7 @@ fun SigInScreen() {
     val (focusEmail, focusPassword) = remember {FocusRequester.createRefs()}
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    var name = "Lautaro"
+    var name = "Marcelo"
 
     Scaffold() {
         Column (
