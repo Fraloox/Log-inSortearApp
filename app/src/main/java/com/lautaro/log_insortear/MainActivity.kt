@@ -18,12 +18,16 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -100,10 +104,19 @@ fun SigInScreen() {
                 ) {
                     Text(
                         buildAnnotatedString {//sirve para aplicar diferentes estilos a diferentes caracteres en una cadena de String
-                            withStyle(style = SpanStyle(color = Color.White, fontSize = 25.sp)){
+                            val offset = Offset(1.0f, 2.0f)
+                            withStyle(style = SpanStyle(color = Color.White,
+                                fontSize = 25.sp,
+                                shadow = Shadow(color = Color.Black,
+                                    offset = offset,
+                                    blurRadius = 3f))){
                                 append("Hola, ")
                             }
-                            withStyle(style = SpanStyle(color = Color(0x0ff757575), fontSize = 25.sp)){
+                            withStyle(style = SpanStyle(color = Color(0x0fffadc0a),
+                                fontSize = 25.sp,
+                                shadow = Shadow(color = Color.Black,
+                                    offset = offset,
+                                    blurRadius = 5f))){
                                 append("$name!")
                             }
                         } //termina el "buildAnnotatedString"
@@ -170,7 +183,7 @@ fun SigInScreen() {
                     shape = RoundedCornerShape(15.dp),
                     value = password,
                     onValueChange = {password = it},
-                    label = { Text(text = "Password", color = Color(0xff757575))},
+                    label = { Text(text = "Contraseña", color = Color(0xff757575))},
                     placeholder = { Text("¿Cual es tu contraseña?", color = Color(0xff757575)) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done), //determina el tipo de teclado y campia el icono de enter al de aceptar
@@ -178,14 +191,14 @@ fun SigInScreen() {
                     visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(), //para cambiar la visibilidad de la contarseña
                     trailingIcon = { //tariling es para poner el icono al final del textField
                         IconButton(onClick = { isPasswordVisible = !isPasswordVisible}) {
-                            Icon(imageVector = if (isPasswordVisible) Icons.Default.Lock else Icons.Default.Lock,
+                            Icon(imageVector = if (isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
                                 contentDescription = "Password Toggle" )
                         }
                     },
                     leadingIcon = {//leading es para poner el icono al comienzo del textField
                         IconButton(onClick = {}) {
                             Icon(
-                                imageVector = Icons.Filled.Password,
+                                imageVector = Icons.Filled.Lock,
                                 contentDescription = "Icono de email"
                             )
                         }
