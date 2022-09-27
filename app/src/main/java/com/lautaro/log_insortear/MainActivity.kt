@@ -239,6 +239,27 @@ fun SigInScreen() {
 
                 Spacer(modifier = (Modifier.height(3.dp)))
 
+                Button(onClick = {  },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(6.dp),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffdd4b39),
+                        contentColor = Color(0xffffffff))
+                ) {
+                    Text(text = "Ingresar con Google")
+                }
+
+                /*Button(onClick = {  },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(6.dp),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffffffff),
+                        contentColor = Color(0xff737373))
+
+                ) {
+                    Text(text = "Ingresar con Google")
+                }*/
+
+                Spacer(modifier = (Modifier.height(3.dp)))
+
                 Button(onClick = { /*TODO*/ },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(6.dp),
@@ -247,7 +268,6 @@ fun SigInScreen() {
                 ) {
                     Text(text = "Registrarte")
                 }
-
 
             }
         }
