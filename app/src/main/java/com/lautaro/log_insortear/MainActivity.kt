@@ -1,6 +1,8 @@
 package com.lautaro.log_insortear
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,7 +13,10 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -26,8 +31,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -36,7 +39,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat.startActivityForResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.lautaro.log_insortear.ui.theme.LoginSortearTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +90,7 @@ fun SigInScreen() {
                 Column(modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(fraction = 0.90f)
-                    .padding(horizontal = 20.dp, vertical = 90.dp,),
+                    .padding(horizontal = 20.dp, vertical = 90.dp),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -96,10 +103,11 @@ fun SigInScreen() {
 
                 }
 
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(fraction = 0.80f)
-                    .padding(start = 15.dp),
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(fraction = 0.80f)
+                        .padding(start = 15.dp),
                     contentAlignment = Alignment.BottomStart,
                 ) {
                     Text(
@@ -239,16 +247,7 @@ fun SigInScreen() {
 
                 Spacer(modifier = (Modifier.height(3.dp)))
 
-                Button(onClick = {  },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(6.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffdd4b39),
-                        contentColor = Color(0xffffffff))
-                ) {
-                    Text(text = "Ingresar con Google")
-                }
-
-                /*Button(onClick = {  },
+                Button(onClick = {/* loginGoogle(thisMainActivity) */},
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(6.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffffffff),
@@ -256,7 +255,7 @@ fun SigInScreen() {
 
                 ) {
                     Text(text = "Ingresar con Google")
-                }*/
+                }
 
                 Spacer(modifier = (Modifier.height(3.dp)))
 
@@ -272,6 +271,23 @@ fun SigInScreen() {
             }
         }
     }
+}
+
+fun loginGoogle(activity: Activity){
+
+    // Configure sign-in to request the user's ID, email address, and basic
+    // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestEmail()
+        .build()
+
+    // Build a GoogleSignInClient with the options specified by gso.
+    val client = GoogleSignIn.getClient(activity, gso); //cliente de sig in de google
+
+    val signInIntent: Intent = client.signInIntent
+    activity.startActivityForResult(signInIntent, 1) //lanza un "intent" para logearse
+
+    //lo que hace un intent es derivar el trabajo a alguna app que pueda hacerlo en este caso google
 }
 
 @Preview(showBackground = true)
