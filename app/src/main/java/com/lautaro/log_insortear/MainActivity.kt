@@ -50,9 +50,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            //Hace que recuerde el estado y lo guarda en la var isLoading para que asi no empiece cargando
+            var isLoading by remember{ mutableStateOf(false) }
+
             LoginSortearTheme {
 
-                LoginScreen()
+                LoginScreen(isLoading){
+                    isLoading = true
+                }
                 //SigInScreen()
 
             }

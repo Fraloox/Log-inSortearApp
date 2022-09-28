@@ -41,7 +41,10 @@ import com.lautaro.log_insortear.ui.theme.LoginSortearTheme
 @OptIn(ExperimentalComposeApi::class, ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    isLoading:Boolean,
+    onLoginClick:() -> Unit
+) {
     var email by remember{ mutableStateOf("") }
     var password by remember{ mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -61,6 +64,7 @@ fun LoginScreen() {
                 .fillMaxWidth()
                 .fillMaxHeight(fraction = 0.50f),
                 Alignment.TopEnd){
+
                 Image(painter = painterResource(id = com.lautaro.log_insortear.R.drawable.trebol_pattern_edit),
                     contentDescription = "Panel head trebol",
                     modifier = Modifier.fillMaxSize(),
@@ -79,7 +83,6 @@ fun LoginScreen() {
                             .weight(1f)
                             .size(180.dp)
                     )
-
                 }
 
                 Box(
@@ -89,24 +92,34 @@ fun LoginScreen() {
                         .padding(start = 15.dp),
                     contentAlignment = Alignment.BottomStart,
                 ) {
-                    comprobarName(name) //Comprueba el nombre del usuario para saber que bienvenidad dar o a quien y lo muestra
+                    //Comprueba el nombre del usuario para saber que bienvenidad dar o a quien y lo muestra
+                    comprobarName(name)
                 }//termina el Box
+
             }
 
-            val maxCaracter = 20 //variable para determinar el maximo de caracteres del campo (Verlo en versiones futuras)
+            //variable para determinar el maximo de caracteres del campo (Verlo en versiones futuras)
+            val maxCaracter = 20
 
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
                 .padding(horizontal = 40.dp)) {//Posicionamiento del objeto
+
                 OutlinedTextField(
                     value = email, onValueChange = { email = it },
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(focusEmail),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next), //cambia el boton del teclado para pasar al siguiente TextField
-                    keyboardActions = KeyboardActions(onNext = { focusPassword.requestFocus() }), //le da el focus al TextField de password
-                    singleLine = true, //determina que sea de una sola linea el textField (falta verificar la cantidad de caracteres que se admite)
+
+                    //cambia el boton del teclado para pasar al siguiente TextField
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+
+                    //le da el focus al TextField de password
+                    keyboardActions = KeyboardActions(onNext = { focusPassword.requestFocus() }),
+
+                    //determina que sea de una sola linea el textField (falta verificar la cantidad de caracteres que se admite)
+                    singleLine = true,
                     label = { Text(text = "Email", color = Color(0xff757575)) }, //etiqueta por defecto
                     placeholder = { Text("¿Cuál es tu correo?", color = Color(0xff757575)) }, //etiqueta al seleccionar
                     leadingIcon = {
@@ -157,6 +170,7 @@ fun LoginScreen() {
                     )
 
                 )
+
                 Spacer(modifier = (Modifier.height(2.dp)))
 
                 Row(
@@ -190,7 +204,25 @@ fun LoginScreen() {
 
                 Spacer(modifier = (Modifier.height(3.dp)))
 
-                Button(onClick = {/* loginGoogle(thisMainActivity) */},
+                Button(onClick = { /*TODO*/ },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(6.dp),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffebb607),
+                        contentColor = Color(0xffffffff)
+                    )
+                ) {
+                    Text(text = "Registrarte")
+                }
+
+                Spacer(modifier = (Modifier.height(3.dp)))
+
+                if(isLoading){
+
+                    CircularProgressIndicator()
+
+                }else{
+
+                    Button(onClick = onLoginClick,
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(6.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffffffff),
@@ -201,17 +233,9 @@ fun LoginScreen() {
                     Text(text = "Ingresar con Google")
                 }
 
-                Spacer(modifier = (Modifier.height(3.dp)))
-
-                Button(onClick = { /*TODO*/ },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(6.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffebb607),
-                        contentColor = Color(0xffffffff)
-                    )
-                ) {
-                    Text(text = "Registrarte")
                 }
+
+
 
             }
         }
@@ -265,5 +289,7 @@ fun comprobarName(name: String?){
 @Preview
 @Composable
 fun loginPreview() {
-        LoginScreen()
+        LoginScreen(true){
+            //NO-OP
+        }
 }
