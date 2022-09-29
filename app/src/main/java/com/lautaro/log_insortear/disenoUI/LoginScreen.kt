@@ -52,7 +52,7 @@ fun LoginScreen(
     val (focusEmail, focusPassword) = remember { FocusRequester.createRefs()}
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    var name = ""
+    var name = "Marcelo"
 
     Scaffold() {
         Column (
@@ -62,26 +62,26 @@ fun LoginScreen(
         ) {
             Box(modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(fraction = 0.50f),
+                .fillMaxHeight(fraction = 0.35f),
                 Alignment.TopEnd){
 
-                Image(painter = painterResource(id = com.lautaro.log_insortear.R.drawable.trebol_pattern_edit),
+                Image(painter = painterResource(id = com.lautaro.log_insortear.R.drawable.trebol_pattern_edit_2),
                     contentDescription = "Panel head trebol",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.FillHeight)
 
                 Column(modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(fraction = 0.90f)
-                    .padding(horizontal = 20.dp, vertical = 90.dp),
+                    .fillMaxHeight(fraction = 0.80f)
+                    .padding(horizontal = 20.dp, vertical = 60.dp),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(painter = painterResource(id = com.lautaro.log_insortear.R.drawable.nuevo_logo_sortear_blanco),
                         contentDescription = "Logo App",
                         modifier = Modifier
-                            .weight(1f)
-                            .size(180.dp)
+                            .fillMaxSize()
+
                     )
                 }
 
@@ -104,7 +104,7 @@ fun LoginScreen(
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .padding(horizontal = 40.dp)) {//Posicionamiento del objeto
+                .padding(horizontal = 25.dp)) {//Posicionamiento del objeto
 
                 OutlinedTextField(
                     value = email, onValueChange = { email = it },
@@ -190,37 +190,46 @@ fun LoginScreen(
                         )
                     }
                 }
-                Spacer(modifier = (Modifier.height(15.dp)))
-
-                Button(onClick = { /*TODO*/ },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(6.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xff71bd43),
-                        contentColor = Color(0xffffffff)
-                    )
-                ) {
-                    Text(text = "Iniciar Sesión")
-                }
-
-                Spacer(modifier = (Modifier.height(3.dp)))
-
-                Button(onClick = { /*TODO*/ },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(6.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffebb607),
-                        contentColor = Color(0xffffffff)
-                    )
-                ) {
-                    Text(text = "Registrarte")
-                }
-
-                Spacer(modifier = (Modifier.height(3.dp)))
+                Spacer(modifier = (Modifier.height(28.dp)))
 
                 if(isLoading){
 
-                    CircularProgressIndicator()
+                    Row(modifier = Modifier.fillMaxWidth(),
+                        Arrangement.Center){
+
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(100.dp),
+                            color = Color(0xff71bd43),
+
+                        )
+                    }
+
 
                 }else{
+
+                    Button(onClick = { /*TODO*/ },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(6.dp),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xff71bd43),
+                            contentColor = Color(0xffffffff)
+                        )
+                    ) {
+                        Text(text = "Iniciar Sesión")
+                    }
+
+                    Spacer(modifier = (Modifier.height(3.dp)))
+
+                    Button(onClick = { /*TODO*/ },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(6.dp),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffebb607),
+                            contentColor = Color(0xffffffff)
+                        )
+                    ) {
+                        Text(text = "Registrarte")
+                    }
+
+                    Spacer(modifier = (Modifier.height(3.dp)))
 
                     Button(onClick = onLoginClick,
                     modifier = Modifier.fillMaxWidth(),
