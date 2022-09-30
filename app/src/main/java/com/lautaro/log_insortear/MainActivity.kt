@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -45,27 +47,67 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.lautaro.log_insortear.disenoUI.LoginScreen
+import com.lautaro.log_insortear.disenoUI.MainViewModel
 import com.lautaro.log_insortear.ui.theme.LoginSortearTheme
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //Bloquea la rotación de la pantalla
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
         super.onCreate(savedInstanceState)
         setContent {
 
+            val viewModel: MainViewModel by viewModels()
+
             //Hace que recuerde el estado y lo guarda en la var isLoading para que asi no empiece cargando
-            var isLoading by rememberSaveable{ mutableStateOf(false) }
+            val isLoading by viewModel.isLoading().observeAsState(false)
+            val hasError by viewModel.hasErrors().observeAsState(false)
 
             LoginSortearTheme {
 
-                LoginScreen(isLoading){
-                    isLoading = true
+                if (hasError){
+                    LoginErrorPopup {
+                        viewModel.clearErrors()
+                    }
+
                 }
-                //SigInScreen()
+
+                LoginScreen(isLoading){
+                    viewModel.loginWithGoogle()
+                }
+
 
             }
         }
     }
+}
+
+@Composable
+private fun LoginErrorPopup(onDismiss: () -> Unit){
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        text ={
+            Text(
+
+                text = "No fue posible completar el ingreso",
+                style = MaterialTheme.typography.body2
+            )
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = "CERRAR")
+            }
+        }
+    )
+
+
+
+
+
 }
 
