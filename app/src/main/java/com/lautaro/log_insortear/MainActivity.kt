@@ -3,6 +3,7 @@ package com.lautaro.log_insortear
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -48,10 +50,12 @@ import com.lautaro.log_insortear.ui.theme.LoginSortearTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState)
         setContent {
+
             //Hace que recuerde el estado y lo guarda en la var isLoading para que asi no empiece cargando
-            var isLoading by remember{ mutableStateOf(false) }
+            var isLoading by rememberSaveable{ mutableStateOf(false) }
 
             LoginSortearTheme {
 

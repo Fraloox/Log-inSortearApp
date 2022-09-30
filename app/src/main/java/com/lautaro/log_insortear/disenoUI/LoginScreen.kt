@@ -77,10 +77,13 @@ fun LoginScreen(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Image(painter = painterResource(id = com.lautaro.log_insortear.R.drawable.nuevo_logo_sortear_blanco),
+                    Image(
+                        painter = painterResource(id = com.lautaro.log_insortear.R.drawable.nuevo_logo_sortear_blanco),
                         contentDescription = "Logo App",
                         modifier = Modifier
-                            .fillMaxSize()
+                            .width(200.dp)
+                            .height(350.dp)
+
 
                     )
                 }
@@ -198,7 +201,7 @@ fun LoginScreen(
                         Arrangement.Center){
 
                         CircularProgressIndicator(
-                            modifier = Modifier.size(100.dp),
+                            modifier = Modifier.size(85.dp),
                             color = Color(0xff71bd43),
 
                         )
@@ -295,7 +298,9 @@ fun comprobarName(name: String?){
     }
 }
 
-@Preview
+@Preview(showBackground = true,
+    widthDp = 390,
+    heightDp = 800)
 @Composable
 fun loginPreview() {
         LoginScreen(true){
