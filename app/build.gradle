@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -44,6 +45,8 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+
 }
 
 dependencies {
@@ -64,4 +67,14 @@ dependencies {
     //                             *** ELEMENTOS AGREGADOS ***
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
     implementation("androidx.compose.material:material-icons-extended:1.2.1")
+
+    //Firebase
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+    implementation platform('com.google.firebase:firebase-bom:30.4.1')
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
+    //para loading
+    implementation("androidx.compose.runtime:runtime:1.2.1")
+    implementation("androidx.compose.runtime:runtime-livedata:1.2.1")
+    implementation("androidx.compose.runtime:runtime-rxjava2:1.2.1")
 }

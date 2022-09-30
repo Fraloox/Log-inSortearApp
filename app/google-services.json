@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "379103655244",
+    "project_id": "sortear-app",
+    "storage_bucket": "sortear-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379103655244:android:0bfecaa013f789315d0be9",
+        "android_client_info": {
+          "package_name": "com.lautaro.log_insortear"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379103655244-4if4hh9cf8q4nlg8ge89era0cifjcrjq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZB4VmerPjKTtFgegamDJ61LVQaBn3uxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379103655244-4if4hh9cf8q4nlg8ge89era0cifjcrjq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
