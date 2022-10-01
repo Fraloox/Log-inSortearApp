@@ -3,6 +3,7 @@ package com.lautaro.log_insortear
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -51,23 +52,25 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { //codigo de google
 
-@Override
-fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { //codigo de google
+        super.onActivityResult(requestCode, resultCode, data)
 
-    onActivityResult(requestCode, resultCode, data)
+        val viewModel: MainViewModel = MainViewModel()
 
-    val viewModel: MainViewModel = MainViewModel()
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == 1) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
 
-    // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-    if (requestCode == 1) {
-        // The Task returned from this call is always completed, no need to attach
-        // a listener.
-        val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-        viewModel.finishLogin(task)
+            viewModel.finishLogin(task)
+        }
     }
 }
+
+
+
 
 @Composable
 private fun LoginErrorPopup(onDismiss: () -> Unit){

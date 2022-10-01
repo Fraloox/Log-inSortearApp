@@ -76,6 +76,7 @@ class MainViewModel: ViewModel() { //Esta clase es para manejar los estados
                             Log.d("ACA", "Failed ${task.exception?.message}")
                             hasErrors.postValue(true)
                         }
+
                         isLoading.postValue(false)
 
 

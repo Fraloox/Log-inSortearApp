@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:379103655244:android:0bfecaa013f789315d0be9",
+        "mobilesdk_app_id": "1:379103655244:android:174419f410518cfe5d0be9",
         "android_client_info": {
           "package_name": "com.lautaro.log_insortear"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "379103655244-sc431k685q529rd3lutc3bjm41unkn60.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lautaro.log_insortear",
+            "certificate_hash": "d6e7d021d99e0a5451398e082b9415bf3b837db5"
+          }
+        },
         {
           "client_id": "379103655244-4if4hh9cf8q4nlg8ge89era0cifjcrjq.apps.googleusercontent.com",
           "client_type": 3

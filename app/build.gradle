@@ -69,8 +69,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.2.1")
 
     //Firebase
-    implementation 'com.google.android.gms:play-services-auth:20.3.0'
     implementation platform('com.google.firebase:firebase-bom:30.4.1')
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
     implementation 'com.google.firebase:firebase-auth-ktx'
 
     //para loading
