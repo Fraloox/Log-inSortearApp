@@ -52,11 +52,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { //codigo de google
 
         super.onActivityResult(requestCode, resultCode, data)
 
-        val viewModel: MainViewModel = MainViewModel()
+        val viewModel: MainViewModel by viewModels()
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == 1) {

@@ -68,19 +68,25 @@ class MainViewModel: ViewModel() { //Esta clase es para manejar los estados
                 auth.signInWithCredential(credential)
                     .addOnCompleteListener{ task ->
 
-                        var user = auth.currentUser
-
                         if (task.isSuccessful){
+
+                            val user = auth.currentUser
                             Log.d("ACA", "Ingreso ${user?.displayName}")
+
                         }else{
+
                             Log.d("ACA", "Failed ${task.exception?.message}")
                             hasErrors.postValue(true)
+
                         }
 
                         isLoading.postValue(false)
 
-
                 }
+
+                    .addOnFailureListener{
+                        Log.d("ACA", "Error: ${it.message}")
+                    }
 
             }
 
