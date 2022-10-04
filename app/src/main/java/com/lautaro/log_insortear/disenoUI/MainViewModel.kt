@@ -14,21 +14,29 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.lautaro.log_insortear.R
+import kotlinx.coroutines.delay
 
 
-class MainViewModel: ViewModel() { //Esta clase es para manejar los estados
+class MainViewModel: ViewModel(){ //Esta clase es para manejar los estados
 
     /*Se cambia la variable para que solamente se pueda leer, asi nadie cambia el valor
     desde afuera del loading*/
     private val isLoading = MutableLiveData(false)
     private val hasErrors = MutableLiveData(false)
 
+
+
+
     //esta "observando la variable para saber cuando cambia"
     fun isLoading(): LiveData<Boolean> = isLoading
-
     fun hasErrors(): LiveData<Boolean> = hasErrors
 
-    fun loginWithGoogle(activity: Activity){
+
+    fun login (activity: Activity){ //Es para generalizar el login  (en desarrollo)
+
+    }
+
+    fun loginWithGoogle(activity: Activity){ //Logea con Google
 
         //avisa que el valor cambia
         isLoading.postValue(true)
@@ -44,6 +52,20 @@ class MainViewModel: ViewModel() { //Esta clase es para manejar los estados
 
         val signInIntent: Intent = client.signInIntent //delega la tarea a la app correspondiente
         activity.startActivityForResult(signInIntent, 1)
+
+    }
+
+    fun ventanaRegistrarse(){
+
+        // Aca va el paso a la ventana de registrarse
+        Log.d("ACA", "Ingreso a registrarse")
+
+    }
+
+    fun LoginWithSortear(activity:Activity){ //Logea con BD
+
+        //avisa que el valor cambia
+        isLoading.postValue(true)
 
     }
 

@@ -1,7 +1,10 @@
 package com.lautaro.log_insortear.disenoUI
 
 import android.annotation.SuppressLint
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.R
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,6 +38,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lautaro.log_insortear.MainActivity
+
 import com.lautaro.log_insortear.disenoUI.LoginScreen
 import com.lautaro.log_insortear.ui.theme.LoginSortearTheme
 
@@ -42,15 +47,28 @@ import com.lautaro.log_insortear.ui.theme.LoginSortearTheme
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
+
+    //Boolean para el lading True=carga / False=inhabilitada la carga
     isLoading:Boolean,
-    onLoginClick:() -> Unit
-) {
+
+    //Avisa que se apretó el boton de Google
+    onLoginGoogleClick:()->Unit,
+
+    //Avisa que se apreto el boton de registrarse
+    onRegistrarseClick:()->Unit,
+
+
+    //Avisa que se apretó el boton de Login normal
+    onLoginSortearClick: () -> Unit
+    ) {
+
     var email by remember{ mutableStateOf("") }
     var password by remember{ mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
 
     val (focusEmail, focusPassword) = remember { FocusRequester.createRefs()}
     val keyboardController = LocalSoftwareKeyboardController.current
+
 
     var name = "Marcelo"
 
@@ -60,46 +78,8 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(fraction = 0.35f),
-                Alignment.TopEnd){
 
-                Image(painter = painterResource(id = com.lautaro.log_insortear.R.drawable.trebol_pattern_edit_2),
-                    contentDescription = "Panel head trebol",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.FillHeight)
-
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(fraction = 0.80f)
-                    .padding(horizontal = 20.dp, vertical = 60.dp),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = com.lautaro.log_insortear.R.drawable.nuevo_logo_sortear_blanco),
-                        contentDescription = "Logo App",
-                        modifier = Modifier
-                            .width(200.dp)
-                            .height(350.dp)
-
-
-                    )
-                }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(fraction = 0.80f)
-                        .padding(start = 15.dp),
-                    contentAlignment = Alignment.BottomStart,
-                ) {
-                    //Comprueba el nombre del usuario para saber que bienvenidad dar o a quien y lo muestra
-                    comprobarName(name)
-                }//termina el Box
-
-            }
+            headerLogin(name)
 
             //variable para determinar el maximo de caracteres del campo (Verlo en versiones futuras)
             val maxCaracter = 20
@@ -176,84 +156,158 @@ fun LoginScreen(
 
                 Spacer(modifier = (Modifier.height(2.dp)))
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    Arrangement.Center,
+                forgotPassword()
 
-                    ) {
-                    /*Row(verticalAlignment = Alignment.CenterVertically) {
-                        Checkbox(checked = true, onCheckedChange = {})
-                        Text(text = "Recuerdame", fontSize = 12.sp)
-                    }*/
-                    TextButton(onClick = { /*TODO*/ }) {
-                        Text(text ="¿Olvidaste tu contraseña?",
-                            fontSize = 12.sp,
-                            color = Color(0xff757575)
-                        )
-                    }
-                }
                 Spacer(modifier = (Modifier.height(28.dp)))
 
                 if(isLoading){
 
-                    Row(modifier = Modifier.fillMaxWidth(),
-                        Arrangement.Center){
-
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(85.dp),
-                            color = Color(0xff71bd43),
-
-                        )
-                    }
-
+                    cargaAnimation()
 
                 }else{
 
-                    Button(onClick = { /*TODO*/ },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(6.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xff71bd43),
-                            contentColor = Color(0xffffffff)
-                        )
-                    ) {
-                        Text(text = "Iniciar Sesión")
-                    }
+                    buttonSortear(onLoginSortearClick)
 
                     Spacer(modifier = (Modifier.height(3.dp)))
 
-                    Button(onClick = { /*TODO*/ },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(6.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffebb607),
-                            contentColor = Color(0xffffffff)
-                        )
-                    ) {
-                        Text(text = "Registrarte")
-                    }
+                    buttonRegistrarse(onRegistrarseClick)
 
                     Spacer(modifier = (Modifier.height(3.dp)))
 
-                    Button(onClick = onLoginClick,
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(6.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffffffff),
-                        contentColor = Color(0xff737373)
-                    )
-
-                ) {
-                    Text(text = "Ingresar con Google")
-                }
+                    buttonGoogle(onLoginGoogleClick)
 
                 }
-
-
 
             }
         }
     }
 
 }
+
+
+@Composable
+fun headerLogin(name:String?){
+
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight(fraction = 0.35f),
+        Alignment.TopEnd){
+
+        Image(painter = painterResource(id = com.lautaro.log_insortear.R.drawable.trebol_pattern_edit_2),
+            contentDescription = "Panel head trebol",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillHeight)
+
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(fraction = 0.80f)
+            .padding(horizontal = 20.dp, vertical = 60.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = com.lautaro.log_insortear.R.drawable.nuevo_logo_sortear_blanco),
+                contentDescription = "Logo App",
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(350.dp)
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(fraction = 0.80f)
+                .padding(start = 15.dp),
+            contentAlignment = Alignment.BottomStart,
+        ) {
+            //Comprueba el nombre del usuario para saber que bienvenidad dar o a quien y lo muestra
+            comprobarName(name)
+        }//termina el Box
+    }
+}
+
+@Composable
+fun forgotPassword(){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        Arrangement.Center,
+
+        ) {
+        /*Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(checked = true, onCheckedChange = {})
+            Text(text = "Recuerdame", fontSize = 12.sp)
+        }*/
+        TextButton(onClick = { /*TODO*/ }) {
+            Text(text ="¿Olvidaste tu contraseña?",
+                fontSize = 12.sp,
+                color = Color(0xff757575)
+            )
+        }
+    }
+}
+
+@Composable
+fun cargaAnimation (){
+
+    Row(modifier = Modifier.fillMaxWidth(),
+        Arrangement.Center){
+
+        CircularProgressIndicator(
+            modifier = Modifier.size(85.dp),
+            color = Color(0xff71bd43),
+
+            )
+    }
+
+}
+
+@Composable
+fun buttonSortear(onLoginSortearClick:() -> Unit){
+
+    Button(
+        onClick = onLoginSortearClick,
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(6.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xff71bd43),
+            contentColor = Color(0xffffffff)
+        )
+    ) {
+        Text(text = "Iniciar Sesión")
+    }
+
+}
+
+@Composable
+fun buttonRegistrarse(onRegistrarseClick:()->Unit){
+    Button(onClick = onRegistrarseClick,
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(6.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffebb607),
+            contentColor = Color(0xffffffff)
+        )
+    ) {
+        Text(text = "Registrarte")
+    }
+}
+
+@Composable
+fun buttonGoogle(onLoginGoogleClick:() -> Unit){
+
+    Button(onClick = onLoginGoogleClick,
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(6.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xffffffff),
+            contentColor = Color(0xff737373)
+        )
+
+    ) {
+        Text(text = "Ingresar con Google")
+    }
+
+}
+
 
 @Composable
 fun comprobarName(name: String?){
@@ -298,12 +352,14 @@ fun comprobarName(name: String?){
     }
 }
 
-@Preview(showBackground = true,
+
+
+/*@Preview(showBackground = true,
     widthDp = 390,
     heightDp = 800)
 @Composable
 fun loginPreview() {
         LoginScreen(true){
-            //NO-OP
+            //Click
         }
-}
+}*/
