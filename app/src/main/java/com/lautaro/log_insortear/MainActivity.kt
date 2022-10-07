@@ -36,27 +36,19 @@ class MainActivity : ComponentActivity() {
             val hasError by viewModel.hasErrors().observeAsState(false)
 
 
-
-
             LoginSortearTheme {
 
                 if (hasError) {
                     LoginErrorPopup {
                         viewModel.clearErrors()
                     }
-
                 }
 
                 LoginScreen(isLoading,
-                    onLoginGoogleClick = { viewModel.loginWithGoogle( this@MainActivity)},
+                    /*onLoginGoogleClick = { viewModel.loginWithGoogle( this@MainActivity)},*/
                     onRegistrarseClick = {viewModel.ventanaRegistrarse()},
                     onLoginSortearClick = {viewModel.LoginWithSortear(this@MainActivity)}
                 )
-
-
-
-
-
             }
         }
     }

@@ -52,7 +52,7 @@ fun LoginScreen(
     isLoading:Boolean,
 
     //Avisa que se apretó el boton de Google
-    onLoginGoogleClick:()->Unit,
+    /*onLoginGoogleClick:()->Unit,*/
 
     //Avisa que se apreto el boton de registrarse
     onRegistrarseClick:()->Unit,
@@ -62,15 +62,18 @@ fun LoginScreen(
     onLoginSortearClick: () -> Unit
     ) {
 
-    var email by remember{ mutableStateOf("") }
+    var email by remember{mutableStateOf("")}
     var password by remember{ mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
 
     val (focusEmail, focusPassword) = remember { FocusRequester.createRefs()}
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    //variable para determinar el maximo de caracteres del campo (Verlo en versiones futuras)
+    val maxChar = 50
 
-    var name = "Marcelo"
+
+    var name = ""
 
     Scaffold() {
         Column (
@@ -81,16 +84,20 @@ fun LoginScreen(
 
             headerLogin(name)
 
-            //variable para determinar el maximo de caracteres del campo (Verlo en versiones futuras)
-            val maxCaracter = 20
-
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
                 .padding(horizontal = 25.dp)) {//Posicionamiento del objeto
 
                 OutlinedTextField(
-                    value = email, onValueChange = { email = it },
+                    value = email,
+                    onValueChange = {
+                        if (it.length <= maxChar ){
+                            email = it
+                        }else{
+                            focusPassword.requestFocus()
+                        }
+                                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(focusEmail),
@@ -117,6 +124,15 @@ fun LoginScreen(
                     colors = TextFieldDefaults.outlinedTextFieldColors( //Determina el color del borde al seleccionar el TextField
                         focusedBorderColor = Color(0xff71bd43)
                     )
+                )
+
+                Text(
+                    text = "${email.length}/$maxChar",
+                    color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
+                    style = MaterialTheme.typography.caption,
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .align(Alignment.End)
                 )
 
                 Spacer(modifier = (Modifier.height(8.dp))) // *** Espaciado ***
@@ -172,9 +188,8 @@ fun LoginScreen(
 
                     buttonRegistrarse(onRegistrarseClick)
 
-                    Spacer(modifier = (Modifier.height(3.dp)))
-
-                    buttonGoogle(onLoginGoogleClick)
+                    /*Spacer(modifier = (Modifier.height(3.dp)))
+                    buttonGoogle(onLoginGoogleClick)*/
 
                 }
 
@@ -292,7 +307,7 @@ fun buttonRegistrarse(onRegistrarseClick:()->Unit){
     }
 }
 
-@Composable
+/*@Composable
 fun buttonGoogle(onLoginGoogleClick:() -> Unit){
 
     Button(onClick = onLoginGoogleClick,
@@ -306,7 +321,7 @@ fun buttonGoogle(onLoginGoogleClick:() -> Unit){
         Text(text = "Ingresar con Google")
     }
 
-}
+}*/
 
 
 @Composable

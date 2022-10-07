@@ -36,7 +36,7 @@ class MainViewModel: ViewModel(){ //Esta clase es para manejar los estados
 
     }
 
-    fun loginWithGoogle(activity: Activity){ //Logea con Google
+  /*  fun loginWithGoogle(activity: Activity){ //Logea con Google
 
         //avisa que el valor cambia
         isLoading.postValue(true)
@@ -53,7 +53,7 @@ class MainViewModel: ViewModel(){ //Esta clase es para manejar los estados
         val signInIntent: Intent = client.signInIntent //delega la tarea a la app correspondiente
         activity.startActivityForResult(signInIntent, 1)
 
-    }
+    }*/
 
     fun ventanaRegistrarse(){
 
@@ -111,6 +111,7 @@ class MainViewModel: ViewModel(){ //Esta clase es para manejar los estados
                     }
 
             }
+
 
         } catch (e: ApiException) {
 
